@@ -1,0 +1,65 @@
+config: 64_01_900_ddim_02
+root_dir: ./out/64_data_volume/64_01_900_ddim_02
+diffusion:
+  T: 600
+  beta_start: 0.0001
+  beta_end: 0.02
+  img_size: 64
+  loss_type: l2
+  criterion: false
+  steps: 50
+model:
+  name: unet
+  parameters:
+    in_channels: 2
+    model_channels: 128
+    out_channels: 1
+    num_res_blocks: 2
+    attention_resolutions: [2]
+    dropout: 0.2
+    channel_mult: [1, 2, 2, 2]
+    conv_resample: true
+    num_heads: 4
+data:
+  num_frames: 4
+  train_dataset_dir: ./data/dataset_64_01/
+  train_indices: [0, 1, 2, 3, 4]
+  train_indices_range: [0, 900]
+  train_batch_size: 32
+  val_dataset_dir: ./data/dataset_64_01/
+  val_indices: [5, 6]
+  val_indices_range: [901, 950]
+  val_batch_size: 32
+  ensemble_dataset_dir: ./data/dataset_64_02_ensemble/
+  ensemble_indices: [0]
+  ensemble_indices_range: [0, 10]
+  ensemble_batch_size: 32
+train:
+  checkpoint: false
+  n_epochs: 200
+  lr: 0.00001
+  device: cuda
+  log_dir: "{{root_dir}}/logs/"
+  checkpoint_dir: "{{root_dir}}/checkpoints"
+  results_dir: "{{root_dir}}/results"
+  checkpoint_interval: 100
+  results_interval: 10
+  val_interval: 10
+  patience: 5
+val:
+  normal_val: true
+  normal_val_interval: 2
+  ensemble_val: true
+  ensemble_val_interval: 2
+  ensemble_val_metrics:
+    MSE: {}
+    PSNR: {}
+    SSIM: {}
+    Acc: 
+      threshold: 0.2
+    HR: {}
+    CR: {}
+    FID: {}
+    KL: {}
+  n_samples: 50
+  ensemble_sizes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]

@@ -1,0 +1,6 @@
+data_paths:
+  root: './data/'
+  forest: 'land_data/canopy_Ferguson_2018.tif'
+  ignition: 'land_data/Ferguson_2018_ignition_forest2.txt'
+  altitude: 'land_data/slope_Ferguson_2018.tif'
+  density: 'land_data/density_Ferguson_2018.tif'

@@ -1,0 +1,16 @@
+type: "ensemble"
+config_path: "./data/Ferguson.yml"
+data_dir_path: "./data/dataset_64_04_ensemble/"
+np_dir_path: "./data/dataset_np_ensemble/"
+sample_size: 64
+frame_size: 64
+generations: 51
+num_samples: 50
+interval: 10
+fire_num: 0
+tolerance: 10
+max_burned_area_percentage: 0.4
+info: false
+# ensemble
+num_updates: 50
+frames: [10, 20, 30, 40]

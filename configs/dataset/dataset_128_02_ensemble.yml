@@ -1,0 +1,16 @@
+type: "ensemble"
+config_path: "./data/Chimney.yml"
+data_dir_path: "./data/dataset_128_02_ensemble/"
+np_dir_path: "./data/dataset_np_ensemble/"
+sample_size: 128
+frame_size: 128
+generations: 51
+num_samples: 50
+interval: 10
+fire_num: 0
+tolerance: 5
+max_burned_area_percentage: 0.35
+info: false
+# ensemble
+num_updates: 50
+frames: [10, 20, 30, 40, 50]

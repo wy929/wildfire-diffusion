@@ -1,0 +1,13 @@
+type: "raw"
+config_path: "./data/Chimney.yml"
+data_dir_path: "./data/dataset_64_02/"
+np_dir_path: "./data/dataset_np/"
+sample_size: 64
+frame_size: 64
+generations: 51
+num_samples: 10
+interval: 10
+fire_num: 0
+tolerance: 5
+max_burned_area_percentage: 0.4
+info: false

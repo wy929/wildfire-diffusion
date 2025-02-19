@@ -1,0 +1,35 @@
+build/
+data/*
+data.zip
+results/
+*.zip
+output/
+out/*
+checkpoints/
+*bak
+logs/*
+*.pth
+PlotNeuralNet-master/
+**/checkpoint/
+Documents/
+# exclude data/dataset_0/
+!data/dataset_0.zip
+!data/dataset_6.tar
+!data/dataset_6_ensemble.tar
+!data/dataset_128_01.tar.gz
+!data/dataset_128_01_ensemble.tar.gz
+!data/dataset_64_01.tar.gz
+!data/dataset_64_01_ensemble.tar.gz
+!data/dataset_64_02_ensemble.tar.gz
+!data/dataset_64_04.tar.gz
+!data/dataset_64_04_ensemble.tar.gz
+!data/Chimney.yml
+!data/Ferguson.yml
+!data/script.md
+# out 
+!out/64_ddim_steps/
+!out/64_data_volume/
+!out/64_data_volume_fer/
+!*results.zip
+# ignore all __pyache__
+__pycache__/
