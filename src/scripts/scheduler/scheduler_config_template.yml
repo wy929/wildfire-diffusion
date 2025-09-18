@@ -1,0 +1,40 @@
+# Scheduler Configuration Template
+# Copy this file to your workspace as scheduler_config.yml and customize
+
+# Basic Configuration
+task_name: "my_task"
+work_dir: "/path/to/project/root"
+
+# Paths (relative to workspace or absolute)
+config_dir: "configs"  # Directory containing task configs
+script_path: "train.py"  # Training script
+python_env: "/path/to/python"  # Python executable
+
+# Session Configuration
+scheduler_session_suffix: "_scheduler"  # Scheduler session name suffix
+worker_prefix: ""  # Worker session prefix (defaults to task_name)
+
+# GPU Configuration
+max_jobs_per_gpu: 2
+gpu_count: 2
+
+# Scheduling Configuration
+check_interval: 30  # seconds between status checks
+startup_delay: 1    # seconds between session creation steps
+command_delay: 0.5  # seconds between tmux commands
+
+# Logging
+log_dir: "/tmp"
+enable_logging: true
+
+# File Patterns
+config_pattern: "*.yml"
+
+# Environment Setup
+conda_env: "base"
+cuda_visible_devices_var: "CUDA_VISIBLE_DEVICES"
+
+# Advanced Options
+auto_restart_failed: false
+max_retries: 3
+cleanup_on_complete: false

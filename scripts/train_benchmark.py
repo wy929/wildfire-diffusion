@@ -8,10 +8,10 @@ args = parser.parse_args()
 # Use the provided config path
 config_path = args.config_path
 # config
-# config_path = './configs/train/train_64_07_benchmark_unet.yml'
+# config_path = './configs/train/64_ddim_steps/train_64_01_500_bm_unet_02.yml'
 # end config
 # Add the parent directory to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 print("Current Working Directory:", os.getcwd())
 print("Python Path:", sys.path)
 import torch
@@ -25,7 +25,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from src.data.dataset import FireDataset, EnsembleFireDataset
 from src.utils.transforms import transform, post_process
-from src.models import unet
+from src.models import unet, unet_basic
 from src.utils.scripts import train_normal
 
 env = Environment(loader=FileSystemLoader(searchpath="./"))
@@ -105,13 +105,13 @@ print("train_indices:", train_indices)
 print("val_indices:", val_indices)
 print("ensemble_indices:", ensemble_indices)
 
-# optimizer = optim.AdamW(model.parameters(), lr=config['train']['lr'])
-optimizer = optim.AdamW(model.parameters(), lr=config['train']['lr'], weight_decay=1e-4) # 03
+optimizer = optim.AdamW(model.parameters(), lr=config['train']['lr'])
+# optimizer = optim.AdamW(model.parameters(), lr=config['train']['lr'], weight_decay=1e-4) # 03
 criterion = nn.MSELoss()
 from src.utils.transforms import ThresholdToZero
 # post_transform = ThresholdToZero(threshold=0.3) 
 # post_transform = ThresholdToZero(threshold=0.0) # 01
-post_transform = post_process   # 02
+post_transform = post_process   # threshold=0.5 by default
 
 train_normal(
           model,

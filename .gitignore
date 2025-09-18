@@ -12,6 +12,9 @@ logs/*
 PlotNeuralNet-master/
 **/checkpoint/
 Documents/
+workspace/*
+out/
+configs/doc.md
 # exclude data/dataset_0/
 !data/dataset_0.zip
 !data/dataset_6.tar

@@ -7,12 +7,13 @@ parser.add_argument('--config_path', type=str, required=True, help='Path to the 
 args = parser.parse_args()
 # config
 # config_path = './configs/train/train_64_07_ddim.yml'
+# config_path = './configs/train/64_ddim_steps/train_64_01_500_ddim_20.yml'
 # end config
 
 # Use the provided config path
 config_path = args.config_path
-# Add the parent directory to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Add the project root directory to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from tqdm import tqdm
 print("Current Working Directory:", os.getcwd())
 print("Python Path:", sys.path)
@@ -27,7 +28,7 @@ from torch.utils.data import DataLoader
 import torch
 
 from src.utils.tools import read_yaml, load_and_render_config
-from src.models import unet
+from src.models import unet, unet_basic, autoencoder, residual_autoencoder
 from src.diffusion.diffusion import Diffusion
 from src.utils.transforms import post_transform, post_transform_1
 from src.utils.scripts import train
@@ -36,13 +37,23 @@ from src.diffusion.diffusion import Diffusion
 from src.data.dataset import FireDataset, EnsembleFireDataset
 from src.utils.transforms import transform
 
-env = Environment(loader=FileSystemLoader(searchpath="./"))
+# Automatically determine config directory from config_path
+config_dir = os.path.dirname(os.path.abspath(config_path))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+env = Environment(loader=FileSystemLoader(searchpath=[
+    "./",
+    config_dir,
+    project_root
+]))
 data = read_yaml(config_path)
 context = {
     'config': data['config'],
     'root_dir': data['root_dir']
 }
-config = load_and_render_config(config_path, context, env)
+# Extract just the filename for template loading
+config_filename = os.path.basename(config_path)
+config = load_and_render_config(config_filename, context, env)
 root_dir = config['root_dir']
 os.makedirs(root_dir, exist_ok=True)
 device = config['train']['device']
@@ -129,20 +140,20 @@ if config['val']['ensemble_val']:
 optimizer = optim.AdamW(model.parameters(), lr=config['train']['lr'], weight_decay=1e-4)
 # optimizer = torch.optim.SGD(model.parameters(), lr=config['train']['lr'], momentum=0.9, weight_decay=1e-4)
 
-pt1 = post_transform(threshold=0.019)
-pt2 = post_transform(threshold=0.02)
-pt3 = post_transform(threshold=0.03)
+pt0 = post_transform(threshold=0.02)
+# pt2 = post_transform(threshold=0.05)
+# pt3 = post_transform(threshold=0.1)
 # pt4 = post_transform(threshold=0.2)
 # pt5 = post_transform(threshold=0.3)
-pt6 = post_transform_1(th1=0.019, th2=0.95)
-pt7 = post_transform_1(th1=0.02, th2=0.95)
-pt8 = post_transform_1(th1=0.03, th2=0.95)
+pt1 = post_transform_1(th1=0.02, th2=0.9)
+# pt7 = post_transform_1(th1=0.05, th2=0.9)
+# pt8 = post_transform_1(th1=0.1, th2=0.9)
 # pt9 = post_transform_1(th1=0.2, th2=0.9)
 # pt10 = post_transform_1(th1=0.3, th2=0.9)
-post_transforms = [pt1, pt2, pt3, pt6, pt7, pt8]
+post_transforms = [pt0, pt1]
 # post_transforms = [pt1, pt2, pt3, pt4, pt5, pt6, pt7, pt8, pt9, pt10]
 # criterion = EdgeWeightedLoss(loss_type=diffusion_params['loss_type'], edge_weight=10.0)
-criterion = False
+criterion = False # use the default loss in diffusion.py
 train(
     diffusion=diffusion,
     model=model, 
