@@ -21,7 +21,7 @@ python3 scripts/dataset.py
 write or load a config file in `./config/train`
 
 ```
-python3 scripts/train_ddim_unet.py
+python3 scripts/train_ddim.py
 ```
 
 
