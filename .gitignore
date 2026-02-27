@@ -30,6 +30,7 @@ configs/train/backups/
 !data/Chimney.yml
 !data/Ferguson.yml
 !data/script.md
+!data/land_data.zip
 # out 
 !out/64_ddim_steps/
 !out/64_data_volume/
